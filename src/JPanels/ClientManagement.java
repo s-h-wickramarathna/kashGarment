@@ -385,8 +385,6 @@ public class ClientManagement extends javax.swing.JPanel {
 
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(786, 408));
 
-        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
-
         jLabel3.setText("Email :");
 
         jLabel4.setText("First Name :");
@@ -477,8 +475,6 @@ public class ClientManagement extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Add Client", jPanel2);
 
-        jPanel8.setBackground(new java.awt.Color(255, 0, 51));
-
         jLabel7.setText("Enter Email :");
 
         jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -561,8 +557,6 @@ public class ClientManagement extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Search Client Products", jPanel3);
 
-        jPanel15.setBackground(new java.awt.Color(255, 255, 102));
-
         jLabel18.setText("Enter Client Mail :");
 
         jLabel20.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
@@ -625,7 +619,7 @@ public class ClientManagement extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 674, Short.MAX_VALUE)
-                .addGap(0, 117, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
