@@ -4,6 +4,7 @@
  */
 package JDIalogs;
 
+import JPanels.Consumption;
 import Model.MYSQL;
 import java.sql.ResultSet;
 import java.util.Vector;
@@ -17,11 +18,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class LoadConsumptionViewDiaolg extends javax.swing.JDialog {
 
+    private Consumption c;
+    
     /**
      * Creates new form LoadConsumptionViewDiaolg
      */
-    public LoadConsumptionViewDiaolg(java.awt.Frame parent, boolean modal) {
+    public LoadConsumptionViewDiaolg(java.awt.Frame parent, boolean modal,Consumption c) {
         super(parent, modal);
+        this.c = c;
         initComponents();
         loadConsumption("");
     }
@@ -30,7 +34,10 @@ public class LoadConsumptionViewDiaolg extends javax.swing.JDialog {
     
         try {
             
-            ResultSet rs = MYSQL.Search("SELECT * FROM `product` WHERE `p_id` LIKE '"+search+"%' OR `p_name` LIKE '"+search+"%'");
+            String query = "SELECT `p_id`,`p_name` AS `name`,`p_description`,`client_cl_email` FROM `product` "
+                    + "WHERE `p_id` LIKE '"+search+"%' OR `p_name` LIKE '"+search+"%'";
+                    
+            ResultSet rs = MYSQL.Search(query);
             
             DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
             model.setRowCount(0);
@@ -38,7 +45,7 @@ public class LoadConsumptionViewDiaolg extends javax.swing.JDialog {
             while (rs.next()) {                
                 Vector<Object> vector = new Vector<>();
                 vector.add(rs.getString("p_id"));
-                vector.add(rs.getString("p_​name"));
+                vector.add(rs.getString("name"));
                 vector.add(rs.getString("p_description"));
                 vector.add(rs.getString("client_cl_email"));
                 model.addRow(vector);
@@ -67,7 +74,7 @@ public class LoadConsumptionViewDiaolg extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("View Consumption");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -92,6 +99,16 @@ public class LoadConsumptionViewDiaolg extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
 
         jTextField1.setText("Search By Product ID or Name");
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,49 +150,63 @@ public class LoadConsumptionViewDiaolg extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+        // TODO add your handling code here:
+        jTextField1.setText("");
+    }//GEN-LAST:event_jTextField1MouseClicked
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+        
+        String search = jTextField1.getText();
+        loadConsumption(search);
+        
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoadConsumptionViewDiaolg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoadConsumptionViewDiaolg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoadConsumptionViewDiaolg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoadConsumptionViewDiaolg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                LoadConsumptionViewDiaolg dialog = new LoadConsumptionViewDiaolg(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(LoadConsumptionViewDiaolg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(LoadConsumptionViewDiaolg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(LoadConsumptionViewDiaolg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(LoadConsumptionViewDiaolg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                LoadConsumptionViewDiaolg dialog = new LoadConsumptionViewDiaolg(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

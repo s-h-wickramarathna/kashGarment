@@ -5,16 +5,22 @@
 package JPanels;
 
 import Common.GenerateUID;
+import Gui.SignIn;
 import JDIalogs.LoadGrnSupplierDialog;
 import JDIalogs.LoadStockDialog;
 import Model.GrnStockBean;
 import Model.MYSQL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -29,12 +35,13 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
     private JFrame parent;
     private String userID;
 
-
     public GrnManagamentPanel(JFrame parent, String userID) {
         initComponents();
         this.parent = parent;
         this.userID = userID;
         jTextField1.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        jButton7.setEnabled(false);
+
     }
 
     private void resetAddTableFields() {
@@ -77,17 +84,17 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
     }
 
     private void caiculateTable() {
-        
+
         double total = 0;
         int rowCount = jTable1.getRowCount();
-        
+
         for (int i = 0; i < rowCount; i++) {
             double quentity = Double.parseDouble(jTable1.getValueAt(i, 4).toString());
             double u_price = Double.parseDouble(jTable1.getValueAt(i, 5).toString());
 
-            total += (quentity*u_price);
+            total += (quentity * u_price);
         }
-        
+
         jTextField9.setText(String.valueOf(rowCount));
         jLabel11.setText(String.valueOf(total));
     }
@@ -127,6 +134,7 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(680, 580));
 
@@ -246,6 +254,13 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
             }
         });
 
+        jButton7.setText("Report");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -276,11 +291,11 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                                 .addGap(3, 3, 3)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -289,7 +304,7 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -305,6 +320,8 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
                                         .addComponent(jLabel9)
                                         .addGap(17, 17, 17))
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel7)
                                         .addGap(18, 18, 18)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -347,11 +364,12 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
                     .addComponent(jButton3)
                     .addComponent(jButton4))
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -430,6 +448,7 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
             caiculateTable();
             resetAddTableFields();
 
+            jButton7.setEnabled(true);
         } else {
             JOptionPane.showMessageDialog(this, validate, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -438,37 +457,59 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        
-        if(jTable1.getRowCount() != 0){
-        
+
+        if (jTable1.getRowCount() != 0) {
+
             String uid = new GenerateUID().generateUniqueId();
-            
+
             MYSQL.Iud("INSERT INTO `grn` (`grn_id`,`grn_total_price`,`supplier_sup_id`,`grn_purchesed_date`,`user_u_id`) "
-                    + "VALUES('"+uid+"','"+jLabel11.getText()+"','"+supplierID+"','"+jTextField1.getText()+"','"+userID+"') ");
-            
+                    + "VALUES('" + uid + "','" + jLabel11.getText() + "','" + supplierID + "','" + jTextField1.getText() + "','" + userID + "') ");
+
             for (int i = 0; i < jTable1.getRowCount(); i++) {
                 String stockID = jTable1.getValueAt(i, 0).toString();
                 String qty = jTable1.getValueAt(i, 4).toString();
                 String unitPrice = jTable1.getValueAt(i, 5).toString();
-                
+
                 MYSQL.Iud("INSERT INTO `grn_item` (`unit_buy_price`,`grni_qty`,`stock_stock_id`,`grn_grn_id`) "
-                        + "VALUES('"+unitPrice+"','"+qty+"','"+stockID+"','"+uid+"') ");
+                        + "VALUES('" + unitPrice + "','" + qty + "','" + stockID + "','" + uid + "') ");
             }
-            
+
             resetAll();
         }
-        
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount() == 2){
-        int row = jTable1.getSelectedRow();
-        
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.removeRow(row);
+        if (evt.getClickCount() == 2) {
+            int row = jTable1.getSelectedRow();
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.removeRow(row);
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+       
+          try {
+            String inputStream = "src//Reports//GRN.jasper";
+            
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("Parameter1", String.valueOf(jTextField9.getText()));
+            parameters.put("Parameter2", jLabel11.getText());
+            parameters.put("IMAGE_PATH", "src/Resources/kashReportImage.jpg");
+            
+            JRTableModelDataSource connection = new JRTableModelDataSource(jTable1.getModel());
+            
+            JasperPrint fillReport = JasperFillManager.fillReport(inputStream, parameters, connection);
+            JasperViewer.viewReport(fillReport, false);
+             jButton7.setEnabled(false);
+            
+        } catch (Exception e) {
+              SignIn.logger.warning(String.valueOf(e));
+        }
+        
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -478,6 +519,7 @@ public class GrnManagamentPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

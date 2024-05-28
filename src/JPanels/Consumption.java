@@ -8,13 +8,19 @@ import JDIalogs.LoadMaterialDialog;
 import JDIalogs.LoadProductConsumptionDialog;
 import JDIalogs.LoadProductDialog;
 import JDIalogs.LoadMaterialConsumptionDialog;
+import JDIalogs.LoadConsumptionViewDiaolg;
 import Model.MYSQL;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -132,7 +138,7 @@ public class Consumption extends javax.swing.JPanel {
 
         jLabel12.setText("jLabel12");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Consumption");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -140,7 +146,7 @@ public class Consumption extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(258, 258, 258)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -379,7 +385,7 @@ public class Consumption extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
-                .addGap(8, 8, 8))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -447,6 +453,35 @@ public class Consumption extends javax.swing.JPanel {
                 e.printStackTrace();
             }
 
+        }
+        
+        if(evt.getClickCount() == 2 && jTable1.getSelectedRow() != -1){
+        
+             try {
+
+
+            String inputStream = "src//Reports//kashConsumptionReport.jasper";
+            
+                 HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("Parameter1", String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(),0)));
+            parameters.put("Parameter2", String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(),1)));
+            parameters.put("Parameter3", String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(),2)));
+            parameters.put("Parameter4", String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(),3)));
+            parameters.put("IMAGE_PATH", "src/Resources/kashReportImage.jpg");
+
+                 JREmptyDataSource connection = new JREmptyDataSource();
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+                 JasperPrint fillReport = JasperFillManager.fillReport(inputStream, parameters, connection);
+                 JasperViewer.viewReport(fillReport, false);
+
+//            jButton3.setEnabled(false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         }
 
     }//GEN-LAST:event_jTable1MouseClicked
@@ -549,7 +584,8 @@ public class Consumption extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         
-        
+        LoadConsumptionViewDiaolg loadConsumptionViewDiaolg = new LoadConsumptionViewDiaolg(parentFrame, true, this);
+        loadConsumptionViewDiaolg.setVisible(true);
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
