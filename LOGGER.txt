@@ -206,3 +206,35 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2024-05-28T07:53:18.072050300Z</date>
+  <millis>1716882798072</millis>
+  <nanos>50300</nanos>
+  <sequence>0</sequence>
+  <logger>LOGGER 01</logger>
+  <level>WARNING</level>
+  <class>JPanels.GrnManagamentPanel</class>
+  <method>jButton7ActionPerformed</method>
+  <thread>19</thread>
+  <message>file:/E:/Class%20works/final%20projects/KashFull/build/classes/Reports/GRN.jasper</message>
+</record>
+<record>
+  <date>2024-05-28T07:53:18.099010300Z</date>
+  <millis>1716882798099</millis>
+  <nanos>10300</nanos>
+  <sequence>1</sequence>
+  <logger>LOGGER 01</logger>
+  <level>WARNING</level>
+  <class>JPanels.GrnManagamentPanel</class>
+  <method>jButton7ActionPerformed</method>
+  <thread>19</thread>
+  <message>net.sf.jasperreports.engine.JRException: java.io.FileNotFoundException: file:\E:\Class%20works\final%20projects\KashFull\build\classes\Reports\GRN.jasper</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+</log>
